@@ -1,3 +1,4 @@
-from kolesa import take_elements
+from kolesa import take_all_links, take_data_all_blocks
 
-take_elements()
+listik = take_all_links()
+take_data_all_blocks(listik)

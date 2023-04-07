@@ -16,31 +16,36 @@ def take_last_page_paginator():
     except selenium.common.exceptions.NoSuchElementException:
         return 0
 
-# парсим каджое объявление на сайте
-def take_elements():
+# получаем каждую ссылку объявления на сайте
+def take_all_links():
     browser.get(URL)
+    links = []
     blocks = browser.find_element(By.CLASS_NAME, 'a-list').find_elements(By.CLASS_NAME, 'a-list__item')
-
     for block in blocks:
-        brend = block.find_element(By.CLASS_NAME, 'a-card__header').find_element(By.CLASS_NAME, 'a-card__title').text
-        links = block.find_element(By.CLASS_NAME, 'a-card__picture').find_element(By.TAG_NAME, 'a').get_attribute('href')
-        data = {
-            'brend': brend,
-            'url': links
-        }
+        link = block.find_element(By.TAG_NAME, 'a').get_attribute('href')
+        links.insert(0, link)
+    return links
 
-    """
-    for link in links:
+
+
+# Проходимя по каждому блоку и собираем данные
+def take_data_all_blocks(lists):
+    for link in lists:
         browser.get(link)
+        brand = browser.find_element(By.CLASS_NAME, 'offer__title').text
+        price = browser.find_element(By.CLASS_NAME, 'offer__price').text
+        city = browser.find_elements(By.TAG_NAME, 'dl')[0].text
+        engine = browser.find_elements(By.TAG_NAME, 'dl')[3].text
+        print(brand, price, engine, city)
 
-        #city = browser.find_elements(By.CLASS_NAME, 'value-title')[0].text
-        year = ''
-        engine = ''
+
+
+
+    """    
         data_add = ''
         rastomozhen = ''
         probeg = ''
         color = ''
         photo = ''
-        #print(city)
     """
-    print(data)
+
